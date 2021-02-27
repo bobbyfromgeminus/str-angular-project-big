@@ -11,6 +11,7 @@ import { OrderService } from 'src/app/services/order.service';
 export class ListOrderComponent implements OnInit {
 
   orderList$: BehaviorSubject<Order[]> = this.orderService.list$;
+  selectedOrderToDelete: Order = new Order();
 
   phrase: string = '';
 
@@ -26,4 +27,13 @@ export class ListOrderComponent implements OnInit {
     this.phrase = (event.target as HTMLInputElement).value;
   }
 
+  setToDelete(order: Order): void {
+    this.selectedOrderToDelete = order;
+  }
+
+  onDelete(): void {
+      const deletedId: string = `${this.selectedOrderToDelete.id}`;
+      this.orderService.remove(this.selectedOrderToDelete);
+      this.orderService.showSuccess('deleted successfuly.', `Order #${deletedId}`);
+    }
 }

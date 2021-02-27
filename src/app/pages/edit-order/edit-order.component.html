@@ -1,1 +1,40 @@
-<p>edit-order works!</p>
+<div class="container">
+  <div class="row">
+<div class="col-md-6 offset-3">
+ <div *ngIf="(order$ | async) as order"  class="card">
+  <div class="card-header card-header-text card-header-danger">
+    <div class="card-text">
+      <h4 class="card-title">Edit selected order #{{order.id}}</h4>
+    </div>
+  </div>
+  <div class="card-body">
+    <form #orderForm="ngForm" (ngSubmit)="onUpdate(order)">
+      <div class="form-group">
+        <label>Customer ID</label>
+        <input [(ngModel)]="order.customerID" type="text" name="customerID" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Product ID</label>
+        <input [(ngModel)]="order.productID" type="text" name="productID" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Amount</label>
+        <input [(ngModel)]="order.amount" type="number" name="amount" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="order.status"size="3" name="status" class="form-control selectpicker" data-style="btn btn-link">
+          <option>new</option>
+          <option>shipped</option>
+          <option>paid</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-block btn-success">
+        Save
+      </button>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+</div>

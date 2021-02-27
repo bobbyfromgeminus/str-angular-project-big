@@ -46,7 +46,7 @@ const routes: Routes = [
     component: ListOrderComponent,
   },
   {
-    path: 'order/:id',
+    path: 'orders/order/:id',
     component: EditOrderComponent,
   },
   {

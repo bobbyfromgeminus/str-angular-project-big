@@ -1,19 +1,21 @@
 <div class="container">
   <div class="row">
-    <div class="col-2 offset-5">
-      <form class="navbar-form">
-        <div class="input-group no-border">
-          <input (keyup)="onChangePhrase($event)" type="text" value="" class="form-control" placeholder="Filter by Status...">
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header card-header-primary">
+        <div class="row card-header card-header-danger">
+          <div class="col-4">
           <h4 class="card-title ">Orders</h4>
-          <p class="card-category">Order list</p>
+        </div>
+        <div class="col-4">
+          Count:
+        </div>
+        <div class="col-4">
+          <form class="navbar-form">
+            <div class="input-group no-border">
+              <input (keyup)="onChangePhrase($event)" type="text" value="" class="form-control" placeholder="Filter by Status...">
+            </div>
+          </form>
+        </div>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -25,7 +27,11 @@
             <th>ProductID</th>
             <th>Amount</th>
             <th>Status</th>
-            <th></th>
+            <th>
+              <button [routerLink]="['order/' + 0]" class="btn btn-block btn-success">
+                Create new order
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -35,16 +41,13 @@
             <td>{{order.productID}}</td>
             <td>{{order.amount}}</td>
             <td>{{order.status}}</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" rel="tooltip" title="Edit Order" class="btn btn-info btn-link btn-sm">
+            <td class="td-actions">
+              <button [routerLink]="['order/' + order.id]" type="button" rel="tooltip" title="Edit order" class="btn btn-success btn-round mx-3 ">
                   <i class="material-icons">edit</i>
-                </button>
-                <button type="button" rel="tooltip" title="Delete Order" class="btn btn-danger btn-link btn-sm">
+              </button>
+              <button (click)="setToDelete(order)" type="button" rel="tooltip" title="Delete order" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
                   <i class="material-icons">close</i>
-                </button>
-
-              </div>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -54,4 +57,25 @@
 </div>
 </div>
 </div>
+</div>
+
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to delete this order?</p>
+        <p>#{{selectedOrderToDelete.id}}</p>
+      </div>
+      <div class="modal-footer">
+        <button (click)="onDelete()"  type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
 </div>

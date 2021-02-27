@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Order } from '../models/order';
 
@@ -13,7 +14,8 @@ export class OrderService {
   list$: BehaviorSubject<Order[]> = new BehaviorSubject<Order[]>([]);
 
   constructor(
-   private  http: HttpClient
+    private http: HttpClient,
+    private toastr: ToastrService
   ) { }
 
   getAll(): void {
@@ -38,7 +40,7 @@ export class OrderService {
   }
 
   update(order: Order): void {
-    this.http.patch<Order>(`{this.jsonUrl}/{order.id}`, order).subscribe(
+    this.http.patch<Order>(`${this.jsonUrl}/${order.id}`, order).subscribe(
       () => this.getAll()
     );
   }
@@ -49,6 +51,8 @@ export class OrderService {
     );
   }
 
-
+  showSuccess(text: string, title: string) {
+    this.toastr.success(text, title, {timeOut: 3000});
+  }
 
 }

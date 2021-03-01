@@ -505,8 +505,8 @@
       "id": 1,
       "customerID": 13,
       "productID": 16,
-      "amount": 9,
-      "status": "new"
+      "amount": 10,
+      "status": "shipped"
     },
     {
       "id": 2,
@@ -640,6 +640,13 @@
       "productID": 4,
       "amount": 8,
       "status": "paid"
+    },
+    {
+      "id": 21,
+      "customerID": 0,
+      "productID": 0,
+      "amount": 0,
+      "status": "new"
     }
   ],
   "products": [

@@ -12,7 +12,7 @@ import { ConfigService, ITableCol } from 'src/app/services/config.service';
   styleUrls: ['./list-category.component.scss']
 })
 export class ListCategoryComponent implements OnInit {
-
+  waiting = true;
   categoryList$: Observable<Category[]> = this.categoryService.categoryList$;
 
   cols: ITableCol[] = this.configService.tableColsCategoryList;
@@ -26,27 +26,31 @@ export class ListCategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private configService: ConfigService,
-    ) { }
- 
+  ) { }
+
   ngOnInit(): void {
-    this.categoryService.getAll()
+    this.categoryService.getAll();
+    this.categoryList$.subscribe(
+      // () => this.waiting = false
+      () => setTimeout(() => { this.waiting = false }, 3000)
+    )
   }
 
   changeOrder(param: string): void {
-    if (this.sorterDirection === 1)  this.sorterDirection = 2;
+    if (this.sorterDirection === 1) this.sorterDirection = 2;
     else this.sorterDirection = 1;
     this.sortby = param;
     let allArrow = document.querySelectorAll('.arrow');
-    allArrow.forEach( element => {
+    allArrow.forEach(element => {
       element.classList.remove('arrow__active');
     });
     let allTHead = document.querySelectorAll('.th');
-    allTHead.forEach( element => {
+    allTHead.forEach(element => {
       element.classList.remove('th__active');
     });
-    document.querySelector('#thead_'+param)?.classList.add('th__active');
-    if (this.sorterDirection == 1) document.querySelector('#arrow_up_'+param)?.classList.add('arrow__active');
-    else document.querySelector('#arrow_down_'+param)?.classList.add('arrow__active');
+    document.querySelector('#thead_' + param)?.classList.add('th__active');
+    if (this.sorterDirection == 1) document.querySelector('#arrow_up_' + param)?.classList.add('arrow__active');
+    else document.querySelector('#arrow_down_' + param)?.classList.add('arrow__active');
   }
 
 

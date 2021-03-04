@@ -4,6 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+import { ChartsModule } from 'ng2-charts';
+
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ListCategoryComponent } from './pages/list-category/list-category.component';
 import { EditCategoryComponent } from './pages/edit-category/edit-category.component';
@@ -45,14 +48,15 @@ import { InprogressComponent } from './inprogress/inprogress.component';
     FilterPipe,
     InfoCardComponent,
     SorterPipe,
-    InprogressComponent
+    InprogressComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    MatProgressBarModule, MatProgressSpinnerModule, BrowserAnimationsModule
+    ChartsModule,
+    MatProgressBarModule, MatProgressSpinnerModule, BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

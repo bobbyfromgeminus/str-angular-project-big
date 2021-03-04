@@ -31,7 +31,7 @@
                 </th>
               </thead>
               <tbody>
-                <tr
+                <tr class="table__row" 
                   *ngFor="let order of orderList$ | async | filter:filterPhrase:filterKey | sorter:sortby:sorterDirection">
                   <td *ngFor="let col of cols">
                     <span>{{ order[col.key] }}</span>
@@ -50,6 +50,11 @@
                   </td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td [attr.colspan]="colspan" [innerHTML]="statOrderText"></td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>

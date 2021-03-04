@@ -1,6 +1,6 @@
 //Mint list-customer.component.ts//
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/services/category.service';
@@ -24,6 +24,9 @@ export class ListCategoryComponent implements OnInit {
   selectedItemToDelete: Category = new Category();
   sortby: string = '';
   waiting = true;
+  colspan: number = this.cols.length + 1;
+  statCategoriesSubscription: Subscription = new Subscription();
+  statCategoryText: string = '';
 
   constructor(
     private categoryService: CategoryService,
@@ -35,6 +38,11 @@ export class ListCategoryComponent implements OnInit {
     let time = (Math.floor(Math.random() * 4) + 1) * 1000;
     this.categoryList$.subscribe(
       () => setTimeout(() => { this.waiting = false }, time)
+    )
+    this.statCategoriesSubscription = this.categoryService.categoryStats$.subscribe(
+      data => {
+        this.statCategoryText = `<span class="text-info">Total ${data.categoryNr} categories. </span>`;
+      }
     )
   }
 
@@ -65,9 +73,16 @@ export class ListCategoryComponent implements OnInit {
   }
 
   deleteItem(): void {
-    const deletedId: string = `${this.selectedItemToDelete.id}`;
-    this.categoryService.remove(this.selectedItemToDelete);
-    this.configService.showSuccess('Deleted successfuly.', `Category #${deletedId}`);
+    const deletedId: number = this.selectedItemToDelete.id;
+    this.categoryService.remove(this.selectedItemToDelete).subscribe(
+      () => {
+        this.categoryService.getAll();
+        this.configService.showSuccess('Deleted successfuly.', `Category #${deletedId}`);
+      }
+    );
   }
 
+  ngOnDestroy(): void {
+    this.statCategoriesSubscription.unsubscribe();
+  }
 }

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Product } from 'src/app/models/product';
+import { Category } from 'src/app/models/category';
 import { ConfigService, ITableCol } from 'src/app/services/config.service';
 import { ProductService } from 'src/app/services/product.service'
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-list-product',
@@ -12,28 +14,45 @@ import { ProductService } from 'src/app/services/product.service'
 })
 export class ListProductComponent implements OnInit {
 
-  productProperties: { count: number } = { count: 0, };
   cols: ITableCol[] = this.configService.tableColsProductList;
   
   // Pagination
-  firstItem: number = 0;
-  lastItem: number = 0;
   pages: number = 0;
-  itemsPerPage:  number = 10;
+  lastItem: number = 0;
+  firstItem: number = 0;
   currentPage: number = 1;
+  itemsPerPage:  number = 10;
+  productProperties: { count: number } = { count: 0, };
 
   // Filter
   filterPhrase: string = '';
   filterKey: string = 'name';
   filterKeys: string[] = Object.keys(new Product());
+
+  // Sorter
+  sortby: string = '';
   sorterDirection: number = 1;
   selectedItemToDelete: Product = new Product();
-  sortby: string = '';
-  waiting = true;
+  
+  // Data Row
+  statProductsText: string = '';
   colspan: number = this.cols.length + 1;
   statProductscription: Subscription = new Subscription();
-  statProductsText: string = '';
+
+  // Product Data Card
+  productData = {
+    Id: 0,
+    Name: '',
+    Type: '',
+    Category: '',
+    Description: '',
+    Price: 0,
+    Featured: '',
+    Active: ''
+  }
   
+  waiting = true;
+
   productList$: Observable<Product[]> = this.productService.productList$.pipe(
     tap( productList => {
       this.productProperties.count = productList.length;
@@ -44,6 +63,7 @@ export class ListProductComponent implements OnInit {
   );
 
   constructor(
+    private categoryService: CategoryService,
     private productService: ProductService,
     private configService: ConfigService,
   ) { }
@@ -116,6 +136,19 @@ export class ListProductComponent implements OnInit {
 
   numSequence(n: number): Array<number> { 
     return Array(n); 
-  } 
+  }
+
+  showDatas(item: Product): void {
+    this.productData.Id = item.id;
+    this.productData.Name = item.name;
+    this.productData.Type = item.type;
+    this.productData.Description = item.description;
+    this.productData.Price = item.price;
+    if (item.featured) this.productData.Featured = 'check_circle';
+    else this.productData.Featured = 'unpublished';
+    if (item.active) this.productData.Active = 'check_circle';
+    else this.productData.Active = 'unpublished';
+    this.categoryService.getOneById(item.id).subscribe( item => this.productData.Category = item.name );
+  }
 
 }

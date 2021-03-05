@@ -13,27 +13,44 @@ import { ConfigService, ITableCol } from 'src/app/services/config.service';
 })
 export class ListCustomerComponent implements OnInit {
 
-  customerProperties: { count: number } = { count: 0, };
   cols: ITableCol[] = this.configService.tableColsCustomerList;
-
+  
   // Pagination
-  firstItem: number = 0;
-  lastItem: number = 0;
   pages: number = 0;
-  itemsPerPage:  number = 10;
+  lastItem: number = 0;
+  firstItem: number = 0;
   currentPage: number = 1;
+  itemsPerPage:  number = 10;
+  customerProperties: { count: number } = { count: 0, };
 
   // Filter
   filterPhrase: string = '';
   filterKey: string = 'firstName';
   filterKeys: string[] = Object.keys(new Customer());
+  
+  // Sorter
+  sortby: string = '';
   sorterDirection: number = 1;
   selectedItemToDelete: Customer = new Customer();
-  sortby: string = '';
-  waiting = true;
+  
+  // Data Row
+  statCustomerText: string = '';
   colspan: number = this.cols.length + 1;
   statCustomerSubscription: Subscription = new Subscription();
-  statCustomerText: string = '';
+
+  // Customer Data Card
+  customerData = {
+    Id: 0,
+    Name: '',
+    Email: '',
+    Country: '',
+    ZipCity: '',
+    Address: '',
+    Notes: '',
+    Active: ''
+  }
+
+  waiting = true;
 
   customerList$: Observable<Customer[]> = this.customerService.customerList$.pipe(
     tap(customers => {
@@ -42,7 +59,7 @@ export class ListCustomerComponent implements OnInit {
       this.lastItem =  this.firstItem + this.itemsPerPage;
       this.pages = Math.ceil(this.customerProperties.count / this.itemsPerPage);
       customers.forEach(element => {
-        // address modification
+        // Address modification
         element.fullAddress = this.getAddress(element);
       })
     })
@@ -126,6 +143,18 @@ export class ListCustomerComponent implements OnInit {
 
   numSequence(n: number): Array<number> { 
     return Array(n); 
-  } 
+  }
+
+  showDatas(item: Customer): void {
+    this.customerData.Id = item.id;
+    this.customerData.Name = `${item.firstName} ${item.lastName}`;
+    this.customerData.Email = item.email;
+    this.customerData.Country = item.address.country;
+    this.customerData.ZipCity = `${item.address.zip} ${item.address.city}`;
+    this.customerData.Address = item.address.street;
+    this.customerData.Notes = item.address.notes;
+    if (item.active) this.customerData.Active = 'check_circle';
+    else this.customerData.Active = 'unpublished';
+  }
 
 }

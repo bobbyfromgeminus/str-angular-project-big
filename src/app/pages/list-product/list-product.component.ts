@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Product } from 'src/app/models/product';
 import { ConfigService, ITableCol } from 'src/app/services/config.service';
 import { ProductService } from 'src/app/services/product.service'
@@ -11,10 +12,17 @@ import { ProductService } from 'src/app/services/product.service'
 })
 export class ListProductComponent implements OnInit {
 
-  productList$: Observable<Product[]> = this.productService.productList$;
-
+  productProperties: { count: number } = { count: 0, };
   cols: ITableCol[] = this.configService.tableColsProductList;
+  
+  // Pagination
+  firstItem: number = 0;
+  lastItem: number = 0;
+  pages: number = 0;
+  itemsPerPage:  number = 10;
+  currentPage: number = 1;
 
+  // Filter
   filterPhrase: string = '';
   filterKey: string = 'name';
   filterKeys: string[] = Object.keys(new Product());
@@ -25,6 +33,15 @@ export class ListProductComponent implements OnInit {
   colspan: number = this.cols.length + 1;
   statProductscription: Subscription = new Subscription();
   statProductsText: string = '';
+  
+  productList$: Observable<Product[]> = this.productService.productList$.pipe(
+    tap( productList => {
+      this.productProperties.count = productList.length;
+      this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+      this.lastItem =  this.firstItem + this.itemsPerPage;
+      this.pages = Math.ceil(this.productProperties.count / this.itemsPerPage);
+    }),
+  );
 
   constructor(
     private productService: ProductService,
@@ -89,5 +106,16 @@ export class ListProductComponent implements OnInit {
   ngOnDestroy(): void {
     this.statProductscription.unsubscribe();
   }
+
+  // Beállítja az aktuális oldalszámot
+  changePageNumber(page: number): void {
+    this.currentPage = page;
+    this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+    this.lastItem =  this.firstItem + this.itemsPerPage;
+  }
+
+  numSequence(n: number): Array<number> { 
+    return Array(n); 
+  } 
 
 }

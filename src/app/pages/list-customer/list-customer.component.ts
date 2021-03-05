@@ -13,22 +13,17 @@ import { ConfigService, ITableCol } from 'src/app/services/config.service';
 })
 export class ListCustomerComponent implements OnInit {
 
-  customerProperties: { count: number } = {
-    count: 0,
-  };
-
-  customerList$: Observable<Customer[]> = this.customerService.customerList$.pipe(
-    tap(customers => {
-      this.customerProperties.count = customers.length;
-      customers.forEach(element => {
-        // address modification
-        element.fullAddress = this.getAddress(element);
-      })
-    })
-  );
-
+  customerProperties: { count: number } = { count: 0, };
   cols: ITableCol[] = this.configService.tableColsCustomerList;
 
+  // Pagination
+  firstItem: number = 0;
+  lastItem: number = 0;
+  pages: number = 0;
+  itemsPerPage:  number = 10;
+  currentPage: number = 1;
+
+  // Filter
   filterPhrase: string = '';
   filterKey: string = 'firstName';
   filterKeys: string[] = Object.keys(new Customer());
@@ -39,6 +34,19 @@ export class ListCustomerComponent implements OnInit {
   colspan: number = this.cols.length + 1;
   statCustomerSubscription: Subscription = new Subscription();
   statCustomerText: string = '';
+
+  customerList$: Observable<Customer[]> = this.customerService.customerList$.pipe(
+    tap(customers => {
+      this.customerProperties.count = customers.length;
+      this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+      this.lastItem =  this.firstItem + this.itemsPerPage;
+      this.pages = Math.ceil(this.customerProperties.count / this.itemsPerPage);
+      customers.forEach(element => {
+        // address modification
+        element.fullAddress = this.getAddress(element);
+      })
+    })
+  );
 
   constructor(
     private customerService: CustomerService,
@@ -108,4 +116,16 @@ export class ListCustomerComponent implements OnInit {
   ngOnDestroy(): void {
     this.statCustomerSubscription.unsubscribe();
   }
+
+  // Beállítja az aktuális oldalszámot
+  changePageNumber(page: number): void {
+    this.currentPage = page;
+    this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+    this.lastItem =  this.firstItem + this.itemsPerPage;
+  }
+
+  numSequence(n: number): Array<number> { 
+    return Array(n); 
+  } 
+
 }

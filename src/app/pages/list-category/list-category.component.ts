@@ -1,4 +1,3 @@
-//Mint list-customer.component.ts//
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -13,9 +12,24 @@ import { ConfigService, ITableCol } from 'src/app/services/config.service';
 })
 export class ListCategoryComponent implements OnInit {
 
-  categoryList$: Observable<Category[]> = this.categoryService.categoryList$;
-
+  billProperties: { count: number } = { count: 0, };
   cols: ITableCol[] = this.configService.tableColsCategoryList;
+
+  // Pagination
+  firstItem: number = 0;
+  lastItem: number = 0;
+  pages: number = 0;
+  itemsPerPage:  number = 10;
+  currentPage: number = 1;
+
+  categoryList$: Observable<Category[]> = this.categoryService.categoryList$.pipe(
+    tap( billList => {
+      this.billProperties.count = billList.length;
+      this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+      this.lastItem =  this.firstItem + this.itemsPerPage;
+      this.pages = Math.ceil(this.billProperties.count / this.itemsPerPage);
+    }),
+  );
 
   filterPhrase: string = '';
   filterKey: string = 'name';
@@ -85,4 +99,16 @@ export class ListCategoryComponent implements OnInit {
   ngOnDestroy(): void {
     this.statCategoriesSubscription.unsubscribe();
   }
+
+  // Beállítja az aktuális oldalszámot
+  changePageNumber(page: number): void {
+    this.currentPage = page;
+    this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+    this.lastItem =  this.firstItem + this.itemsPerPage;
+  }
+
+  numSequence(n: number): Array<number> { 
+    return Array(n); 
+  }
+
 }

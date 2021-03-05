@@ -1,7 +1,6 @@
-import { coerceStringArray } from '@angular/cdk/coercion';
-import { KeyValue } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Bill } from 'src/app/models/bill';
 import { BillService } from 'src/app/services/bill.service';
 import { ConfigService, ITableCol } from 'src/app/services/config.service';
@@ -13,10 +12,17 @@ import { ConfigService, ITableCol } from 'src/app/services/config.service';
 })
 export class ListBillComponent implements OnInit {
 
-  billList$: Observable<Bill[]> = this.billService.billList$;
-
+  billProperties: { count: number } = { count: 0, };
   cols: ITableCol[] = this.configService.tableColsBillList;
 
+  // Pagination
+  firstItem: number = 0;
+  lastItem: number = 0;
+  pages: number = 0;
+  itemsPerPage:  number = 10;
+  currentPage: number = 1;
+
+  // Filter
   filterPhrase: string = '';
   filterKey: string = 'status';
   filterKeys: string[] = Object.keys(new Bill());
@@ -27,6 +33,15 @@ export class ListBillComponent implements OnInit {
   colspan: number = this.cols.length + 1;
   statBillsSubscription: Subscription = new Subscription();
   statBillText: string = '';
+
+  billList$: Observable<Bill[]> = this.billService.billList$.pipe(
+    tap( billList => {
+      this.billProperties.count = billList.length;
+      this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+      this.lastItem =  this.firstItem + this.itemsPerPage;
+      this.pages = Math.ceil(this.billProperties.count / this.itemsPerPage);
+    }),
+  );
 
   constructor(
     private billService: BillService,
@@ -91,5 +106,16 @@ export class ListBillComponent implements OnInit {
   ngOnDestroy(): void {
     this.statBillsSubscription.unsubscribe();
   }
+
+  // Beállítja az aktuális oldalszámot
+  changePageNumber(page: number): void {
+    this.currentPage = page;
+    this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
+    this.lastItem =  this.firstItem + this.itemsPerPage;
+  }
+
+  numSequence(n: number): Array<number> { 
+    return Array(n); 
+  } 
 
 }

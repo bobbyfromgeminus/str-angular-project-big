@@ -1,5 +1,3 @@
-import { coerceStringArray } from '@angular/cdk/coercion';
-import { KeyValue } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -18,7 +16,6 @@ export class ListBillComponent implements OnInit {
   cols: ITableCol[] = this.configService.tableColsBillList;
 
   // Pagination
-  productProperties: {count: number} = { count: 0};
   firstItem: number = 0;
   lastItem: number = 0;
   pages: number = 0;
@@ -39,10 +36,10 @@ export class ListBillComponent implements OnInit {
 
   billList$: Observable<Bill[]> = this.billService.billList$.pipe(
     tap( billList => {
-      this.productProperties.count = billList.length;
+      this.billProperties.count = billList.length;
       this.firstItem =  (this.currentPage - 1) * this.itemsPerPage;
       this.lastItem =  this.firstItem + this.itemsPerPage;
-      this.pages = Math.ceil(this.productProperties.count / this.itemsPerPage);
+      this.pages = Math.ceil(this.billProperties.count / this.itemsPerPage);
     }),
   );
 

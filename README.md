@@ -36,7 +36,7 @@ Majd létrehoztuk az összes szükséges oldal komponenst.
 ### Routing
 A komponensek létrehozását követően elkészítettük és beállítottuk a routingot.
 
-### Service-kkel szemben támasztott kötelező feltételek
+### Service-kkel szemben támasztott követelmények
 - Minden fő adattípushoz tartozzon egy szolgáltatás 
 - Az adatokat .json fájlban tároljuk
 - Az adattartalom tetszőleges.
@@ -55,7 +55,7 @@ Miután elkészült az összes lista, kiválasztottuk a legmegfelelőbb design-t
 A listák és fejléceik generálásához config service-t is készítettünk.
 A következő műveletek a szűrés, rendezés és lapozás funkciók elkészítése volt, majd ezek beépítése az egységesített listákba.
 
-### Lista komponensekkel szemben támasztott kötelező feltételek
+### Lista komponensekkel szemben támasztott követelmények
 - táblázatos forma
 - szerkesztés és törlés gomb
 - szerkesztés esetén az alkalmazás a kapcsolódó szerkesztőfelületre navigál.
@@ -78,7 +78,7 @@ A következő műveletek a szűrés, rendezés és lapozás funkciók elkészít
 ### Szerkesztő komponensek
 A listaoldalak elkészülte után köveetkeztek a szerkesztő komponensek, amelyeket szintén a csapatfelosztás szerint egyénileg készítettünk el, majd döntöttünk a design-ról. Ezt az editorok egységesítése követte a kiválasztott designnak megfelelően.
 
-### Szerkesztő komponensekkel szemben támasztott kötelező feltételek
+### Szerkesztő komponensekkel szemben támasztott követelmények
 - Az url alapján döntsék el, hogy melyik entitást kérik le az adatbázisból.
 - Érdemes a nevüket mindig az edit- előtaggal kezdeni a könnyebb azonosítás érdekében.
 - Ha nem kapnak megjeleníthető adatot, akkor automatikusan egy új entitást hozzanak létre.
@@ -101,5 +101,5 @@ Ezt követően a kártyákhoz szükséges service-kre történő feliratkozások
 - Még nem fizetett számlák összege.
 - **KIÍRT EXTRA** - Három kördiagramot is elhelyeztünk.
 
-### További kiírt és megvalósított Extrea feladat
+### További kiírt és megvalósított Extra feladat
 - **KIÍRT EXTRA** - Azoknál a gomboknál, ahol kattintás után a szerver válaszára várunk, legyen animáció ami ezt jelzi.

@@ -41,6 +41,9 @@
                   </td>
                   <td>
                     <div class="btn-group" role="group">
+                      <button type="button" (click)="showDatas(product)" rel="tooltip" title="Show this Product" class="btn btn-info btn-link btn-sm" data-toggle="modal" data-target="#showProduct">
+                        <i class="material-icons">visibility</i>
+                      </button>
                       <button type="button" [routerLink]="'/product/'+product.id" rel="tooltip"
                         title="Edit this Product" class="btn btn-primary btn-link btn-sm">
                         <i class="material-icons">edit</i>
@@ -93,6 +96,52 @@
       <div class="modal-footer">
         <button (click)="deleteItem()"  type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PRODUCT DATA CARD -->
+<div id="showProduct" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Product Data #{{ productData.Id }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="material-icons">highlight_off</i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="material-icons extralg">garage</div>
+        <div class="modal-body-content">
+          <h1>{{ productData.Type }} {{ productData.Name }}</h1>
+          <table>
+            <tr>
+              <td>category</td>
+              <td>{{ productData.Category }}</td>
+            </tr>
+            <tr>
+              <td>description</td>
+              <td>{{ productData.Description }}</td>
+            </tr>
+            <tr>
+              <td>price</td>
+              <td>{{ productData.Price }}</td>
+            </tr>
+            <tr>
+              <td>featured</td>
+              <td><span class="material-icons">{{ productData.Featured }}</span></td>
+            </tr>
+            <tr>
+              <td>active</td>
+              <td><span class="material-icons">{{ productData.Active }}</span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        
       </div>
     </div>
   </div>

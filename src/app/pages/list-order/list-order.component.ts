@@ -5,6 +5,8 @@ import { tap } from 'rxjs/operators';
 import { Order } from 'src/app/models/order';
 import { ConfigService, ITableCol } from 'src/app/services/config.service';
 import { OrderService } from 'src/app/services/order.service';
+import { ProductService } from 'src/app/services/product.service';
+import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
   selector: 'app-list-order',
@@ -30,10 +32,20 @@ export class ListOrderComponent implements OnInit {
   sorterDirection: number = 1;
   selectedItemToDelete: Order = new Order();
   sortby: string = '';
-  waiting = true;
   colspan: number = this.cols.length + 1;
   statOrdersSubscription: Subscription = new Subscription();
   statOrderText: string = '';
+  
+  waiting = true;
+
+  // Order Data Card
+  orderData = {
+    Id: 0,
+    Customer: '',
+    Product: '',
+    Amount: 0,
+    Status: ''
+  }
 
   orderList$: Observable<Order[]> = this.orderService.orderList$.pipe(
     tap( orders => {
@@ -46,12 +58,14 @@ export class ListOrderComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
+    private customerService: CustomerService,
+    private productService: ProductService,
     private configService: ConfigService,
   ) { }
 
   ngOnInit(): void {
+    let time = 500;
     this.orderService.getAll();
-    let time = (Math.floor(Math.random() * 4) + 1) * 1000;
     this.orderList$.subscribe(
       () => setTimeout(() => { this.waiting = false }, time)
     );
@@ -118,6 +132,14 @@ export class ListOrderComponent implements OnInit {
 
   numSequence(n: number): Array<number> { 
     return Array(n); 
-  } 
+  }
+
+  showDatas(item: Order): void {
+    this.orderData.Id = item.id;
+    this.orderData.Status = item.status;
+    this.orderData.Amount = item.amount;
+    this.customerService.getOneById(item.customerID).subscribe( item => this.orderData.Customer = item.lastName+' '+item.firstName );
+    this.productService.getOneById(item.productID).subscribe( item => this.orderData.Product = item.type+' '+item.name );
+  }
 
 }

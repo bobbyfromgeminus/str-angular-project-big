@@ -22,6 +22,30 @@ export class ListCategoryComponent implements OnInit {
   itemsPerPage:  number = 10;
   currentPage: number = 1;
 
+  // Filter
+  filterPhrase: string = '';
+  filterKey: string = 'name';
+  filterKeys: string[] = Object.keys(new Category());
+
+  // Sorter
+  sortby: string = '';
+  sorterDirection: number = 1;
+  selectedItemToDelete: Category = new Category();
+
+  // Data Row
+  colspan: number = this.cols.length + 1;
+  statCategoriesSubscription: Subscription = new Subscription();
+  statCategoryText: string = '';
+
+  // Category Data Card
+  categoryData = {
+    Id: 0,
+    Name: '',
+    Description: ''
+  }
+
+  waiting = true;
+
   categoryList$: Observable<Category[]> = this.categoryService.categoryList$.pipe(
     tap( billList => {
       this.billProperties.count = billList.length;
@@ -31,25 +55,14 @@ export class ListCategoryComponent implements OnInit {
     }),
   );
 
-  filterPhrase: string = '';
-  filterKey: string = 'name';
-  filterKeys: string[] = Object.keys(new Category());
-  sorterDirection: number = 1;
-  selectedItemToDelete: Category = new Category();
-  sortby: string = '';
-  waiting = true;
-  colspan: number = this.cols.length + 1;
-  statCategoriesSubscription: Subscription = new Subscription();
-  statCategoryText: string = '';
-
   constructor(
     private categoryService: CategoryService,
     private configService: ConfigService,
   ) { }
 
   ngOnInit(): void {
+    let time = 500;
     this.categoryService.getAll();
-    let time = (Math.floor(Math.random() * 4) + 1) * 1000;
     this.categoryList$.subscribe(
       () => setTimeout(() => { this.waiting = false }, time)
     )
@@ -109,6 +122,12 @@ export class ListCategoryComponent implements OnInit {
 
   numSequence(n: number): Array<number> { 
     return Array(n); 
+  }
+
+  showDatas(item: Category): void {
+    this.categoryData.Id = item.id;
+    this.categoryData.Name = item.name;
+    this.categoryData.Description = item.description;
   }
 
 }

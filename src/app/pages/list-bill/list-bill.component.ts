@@ -26,13 +26,26 @@ export class ListBillComponent implements OnInit {
   filterPhrase: string = '';
   filterKey: string = 'status';
   filterKeys: string[] = Object.keys(new Bill());
+
+  // Sorter
+  sortby: string = '';
   sorterDirection: number = 1;
   selectedItemToDelete: Bill = new Bill();
-  sortby: string = '';
-  waiting = true;
+  
+  // Data Row
+  statBillText: string = '';
   colspan: number = this.cols.length + 1;
   statBillsSubscription: Subscription = new Subscription();
-  statBillText: string = '';
+
+  // Bill Data Card
+  billData = {
+    Id: 0,
+    OrderId: 0,
+    Amount: 0,
+    Status: ''
+  }
+
+  waiting = true;
 
   billList$: Observable<Bill[]> = this.billService.billList$.pipe(
     tap( billList => {
@@ -49,8 +62,8 @@ export class ListBillComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let time = 500;
     this.billService.getAll();
-    let time = (Math.floor(Math.random() * 4) + 1) * 1000;
     this.billList$.subscribe(
       () => setTimeout(() => { this.waiting = false }, time)
     );
@@ -116,6 +129,13 @@ export class ListBillComponent implements OnInit {
 
   numSequence(n: number): Array<number> { 
     return Array(n); 
-  } 
+  }
+
+  showDatas(item: Bill): void {
+    this.billData.Id = item.id;
+    this.billData.OrderId = item.orderID;
+    this.billData.Amount = item.amount;
+    this.billData.Status = item.status;
+  }
 
 }

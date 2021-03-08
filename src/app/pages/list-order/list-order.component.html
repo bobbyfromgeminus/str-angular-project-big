@@ -38,6 +38,9 @@
                   </td>
                   <td>
                     <div class="btn-group" role="group">
+                      <button type="button" (click)="showDatas(order)" rel="tooltip" title="Show this Order" class="btn btn-info btn-link btn-sm" data-toggle="modal" data-target="#showOrder">
+                        <i class="material-icons">visibility</i>
+                      </button>
                       <button type="button" [routerLink]="'/order/'+order.id" rel="tooltip" title="Edit this Order"
                         class="btn btn-primary btn-link btn-sm">
                         <i class="material-icons">edit</i>
@@ -90,6 +93,48 @@
       <div class="modal-footer">
         <button (click)="deleteItem()"  type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ORDER DATA CARD -->
+<div id="showOrder" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Order Data #{{ orderData.Id }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="material-icons">highlight_off</i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="material-icons extralg">list_alt</div>
+        <div class="modal-body-content">
+          <h1>Order #{{ orderData.Id }}</h1>
+          <table>
+            <tr>
+              <td>customer</td>
+              <td>{{ orderData.Customer }}</td>
+            </tr>
+            <tr>
+              <td>product</td>
+              <td>{{ orderData.Product }}</td>
+            </tr>
+            <tr>
+              <td>order amount</td>
+              <td>{{ orderData.Amount }}</td>
+            </tr>
+            <tr>
+              <td>status</td>
+              <td>{{ orderData.Status }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        
       </div>
     </div>
   </div>

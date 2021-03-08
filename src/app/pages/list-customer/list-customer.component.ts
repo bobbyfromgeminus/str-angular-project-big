@@ -72,8 +72,8 @@ export class ListCustomerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let time = 500;
     this.customerService.getAll();
-    let time = (Math.floor(Math.random() * 4) + 1) * 1000;
     this.customerList$.subscribe(
       () => setTimeout(() => { this.waiting = false }, time)
     );

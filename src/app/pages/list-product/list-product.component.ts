@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Product } from 'src/app/models/product';
-import { Category } from 'src/app/models/category';
 import { ConfigService, ITableCol } from 'src/app/services/config.service';
 import { ProductService } from 'src/app/services/product.service'
 import { CategoryService } from 'src/app/services/category.service';
@@ -69,8 +68,8 @@ export class ListProductComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let time = 500;
     this.productService.getAll();
-    let time = (Math.floor(Math.random() * 4) + 1) * 1000;
     this.productList$.subscribe(
       () => setTimeout(() => { this.waiting = false }, time)
     );

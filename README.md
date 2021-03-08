@@ -1,114 +1,105 @@
-# FOURKOLÓK ANGULAR BIG PROJECT
+# Angular Záró Csapat Projekt
+## 1-es "Fourkolók" csapat projekt megoldásának összefoglalója
 
-## Heti összefoglaló a Demóhoz, Retróhoz
+### A munka kezdete
+A kiírásnak megfelelően az eredeti repository forkolását és a csapattagok meghívását követően kezdődhetett a munka.
+A létrehozott új angular projektbe bekötöttük a material dashboard-hoz szükséges valamenyi kiegészítőt, scss és js fájlokat.
 
-### 1. nap - 2021.02.22 - hétfő
-A feladat ismertetése mergtörtént.
-Este 18:00-ra beszéltünk meg egy meetinget, amely előtt az alábbi dolgok történtek meg.
-- Slack csoport létrehozása - Balog Róbert
-- Repo fork és új Angular Projekt - Balog Róbert
-- Material Dashboard bekötése - Balog Róbert
-- Induló Repó állapothoz résztvevők meghívása - Balog Róbert
-- Alap osztályok létrehozása - Kövesdi Simon
-- Trello regisztráció - Vadas Gabriella és Varga Jenő
-- Trello beállítások - Varga Jenő
+### Alap sablon és komponenseik
+A dashboard minta oldalát felhasználva elkészítettük a saját sablon oldalunkat, amelyeket kiszerveztünk kisebb komponensekbe.
+- navbar
+- sidebar
+- footer
 
-Az esti megbeszélés alatt az alábbi feladatokat osztottuk ki.
-- classes - Kövesdi Simon - már elkészítve
-- category service, json- Vadas Gabriella
-- product service, json - Barta Mátyás
-- customer service, json - Balog Róbert
-- order service, json - Szakály Zsolt
-- bill service, json - Varga Jenő
-- navbar, sidebar component - Kövesdi Simon
-- routing component - Balog Róbert
+### Szükséges osztályok
+Ezt követően létrehoztuk az összes szükséges osztályt.
+- category (id, name, description)
+- product (id, name, type, catID, description, price, featured, active)
+- customer (id, firstName, lastName, email, address:Address, active)
+- order (id, customerID, productID, amount, status:new|shipped|paid)
+- bill (id, orderID, amount, status:new|paid)  
 
-Bartha Csaba igazolt távolléte miatt rá egyelőre nem osztottunk feladatot.
+### Szükséges oldal komponensek
+Majd létrehoztuk az összes szükséges oldal komponenst.
+- dashboard
+- list-category **EGYÉNI EXTRA**
+- edit-category **EGYÉNI EXTRA**
+- list-product
+- edit-product
+- list-customer
+- edit-customer
+- list-order
+- edit-order
+- list-bill
+- edit-bill
 
-### 2. nap - 2021.02.23 - Kedd
-9:00-kor Gergő vezényletével lebonyolítottuk az első stand upunkat, amelyen egyenként ismertettük az eddig elkészült és az előző este kiosztott feladatokat.
-A folytatásban a lista komponensek elkészítését tűztük ki feladatként. Mindenki azt az entitást folytatja, amit kapott service-ként.
-Varga Jenő vállalta, hogy elkészíti a config-service-t, amellyel generálni tudjuk a táblázatainkat. Addig manuálisan dolgozunk a táblákkal.
-A Material-Dashboard teljes bekötését Balog Róbert végezte le a Cserkó Józsi által bemutatottak szerint.
-A Filter pipe elkészítését vállata Balog Róbert
+### Routing
+A komponensek létrehozását követően elkészítettük és beállítottuk a routingot.
 
-### 3. nap - 2021.02.24 - Szerda
-Bartha Csaba csatlakozott hozzánk igazolt távollétéből. Számára a Dashboard kártya komponensének kiszervezését tűztük ki.
-Elkészült a Sorter pipe a rendezéshez és ezt, valamint a Filtert a customer list-en lehet megtekinteni.
+### Service-kkel szemben támasztott kötelező feltételek
+- Minden fő adattípushoz tartozzon egy szolgáltatás 
+- Az adatokat .json fájlban tároljuk
+- Az adattartalom tetszőleges.
+- Az egyes szervizek legyenek képesek az alapvető adatműveletekre (CRUD) és támogassák a speciális keresést is ha szükséges.
 
-### 4. nap - 2021.02.25 - Csütörtök
-A pénteki demóra és retróra előkészülés jegyében átnéztük, hogy a vállalásunk teljesült-e.
-A vállalásunk: Működő lista oldalak nem teljes filterrel és sorterrel.
-Ehhez még két lista beküldése volt szükséges. Ezek meg is érkeztek.
-Majd tüzetesen átnéztük a feladatkiírást, hogy ne sikkadjon el semmi a lista komponensekről.
-Ennek eredményeként minden egyes entitás listájára rögzítettünk egy-egy 5 pontos teendő checklistet, amelyek többek között a táblák egységes megjelenését, valamint a szűrő és rendező működését irányozzák elő.
-Ezeket ki is tűztük a következő napokra teendőként.
+### Service-k, json fájlok
+Az entitásokat szétosztottuk a csapattagok között. A felosztásnak megfelelően mindenki elkészítette a maga  service-ét és json fájlját.
 
-### 5. nap - 2021.02.26 - Péntek
-Demo and Retro day
+### Service és Json összevonás
+Miután az összes json fájl elkészült, azokat egy közös data.json fájlban egyesítettük.
+A service-k összevonása, azaz egy ős-service-ből való származtatása is megvalósult. 
 
+### Lista komponensek
+A komponensek kidolgozását a listákkal kezdtük.
+Miután elkészült az összes lista, kiválasztottuk a legmegfelelőbb design-t majd egységesíttük az összes listát.
+A listák és fejléceik generálásához config service-t is készítettünk.
+A következő műveletek a szűrés, rendezés és lapozás funkciók elkészítése volt, majd ezek beépítése az egységesített listákba.
 
+### Lista komponensekkel szemben támasztott kötelező feltételek
+- táblázatos forma
+- szerkesztés és törlés gomb
+- szerkesztés esetén az alkalmazás a kapcsolódó szerkesztőfelületre navigál.
+- teljes szélességű gomb, ami az új entitás létrehozását indítja el
+- szűrhető az összes oszlop szerint a táblázat felett elhelyezett beviteli mező segítségével
+- rendezhető az összes oszlop szerint növekvő és csökkenő sorrendbe is.
+- alapértelmezett irány a növekvő
+- utolsó cellában szerkesztés és törlés gombok
+- Minden táblázat szűrhető az összes oszlop alapján.
+- Minden táblázat rendezhető az összes oszlop alapján csökkenő és növekvő sorrendben is.
+- Minden entitáshoz tartozik egy szerkesztő komponens is, ami a táblázat adott sorában lévő szerkesztő gombra kattintva jelenik meg.
+- Az entitások szerkesztésénél a szerkesztő mezőknek illeszkedniük kell az adattípushoz
+- Legyenek felugró üzenetek amelyek értesítik a felhasználót a sikeres műveletekről vagy az esetleges hibákról.
 
+### Lista komponenseken megvalósított Extra feladatok
+- **KIÍRT EXTRA** - A táblázatok utolsó sorába készítettünk egy táblázat összesítőt az entitásnak megfelelő adatokkal. - 
+- **EGYÉNI EXTRA** - Törlés esetén egy felugró, azaz modal ablakkal kérünk törlés megerősítést.
+- **EGYÉNI EXTRA** - A táblázat sorainak utolsó cellájába egy harmadik ikon gomb is elhelyezésre került, amelyre kattintva egy modal ablakban tekinthető meg az adott entitás adattáblája. Az adattábla az order és a product esetében a kapcsolódó service-kből is vesz adatot, így nem egy-egy ID-t, hanem egy beszédesebb nevet megjelenítve.
 
-# 1. nap - 2021.02.22 - hétfő
+### Szerkesztő komponensek
+A listaoldalak elkészülte után köveetkeztek a szerkesztő komponensek, amelyeket szintén a csapatfelosztás szerint egyénileg készítettünk el, majd döntöttünk a design-ról. Ezt az editorok egységesítése követte a kiválasztott designnak megfelelően.
 
-*szerző: Balog Róbert*
+### Szerkesztő komponensekkel szemben támasztott kötelező feltételek
+- Az url alapján döntsék el, hogy melyik entitást kérik le az adatbázisból.
+- Érdemes a nevüket mindig az edit- előtaggal kezdeni a könnyebb azonosítás érdekében.
+- Ha nem kapnak megjeleníthető adatot, akkor automatikusan egy új entitást hozzanak létre.
+- Minden adat kötelező legyen.
+- Minden adatot validálni kell, a tanult `Template Driven` űrlap technikákkal.
+- Ha nincs megfelelően kitöltve az űrlap, akkor ne engedje elküldeni az adatokat és jelenítsen meg releváns hibaüzenetet.
+- Sikeres mentés vagy hiba esetén jelenjen meg felugró üzenet. [Ng Toastr]
+- Létrehozás vagy módosítás után a komponens navigáljon vissza a hozzá tartozó  listához.
 
-## A csapat
+### Validáció
+Miután valamennyi szerkesztő felület elnyerte végső formáját, mindenki visszakapta a sajátját, hogy elkészíthesse a validációs beálíltásokat.
+- **EGYÉNI EXTRA** - Az invalid értékre két módon is felhívjuk a figyelmet. A szöveges felugró értesítést csak akkor jelenítjuk meg, ha módosítunk a cellában. Annak érdekében, hogy még módosítás előtt kapjon a felhasználó értesítést a nem megfelelő adatről, egy figyelemfelkeltő ikont helyeztünk el a label elé.
 
-A csapatunk összetételéről pár gondolat.
-A korábbi Fourkolók névre keresztelt egyes csapat, azaz Gabi, Matyi, Jenő és Robi egyben maradtunk. Zsolt és Simon egy másik, a záróprojekt érdekében feloszlatott csapatból érkeztek együtt, Csaba pedig egyedül érkezett egy másik felbontott csoportból.
-A csapatunk többségében főállásban dolgozó személyekből áll, így sejthető volt, hogy a késő délutáni, esti órákban fogunk tudni kooperálni.
+### Dashboard komponens elemei
+A Dashboard felépítését a kártyák komponensbe történő kiszervezésével kezdtük.
+Ezt követően a kártyákhoz szükséges service-kre történő feliratkozásokat és adat generálásokat készítetük el.
+- Aktív termékek száma.
+- Aktív vásárlók száma.
+- Még nem fizetett rendelések száma.
+- Még nem fizetett számlák összege.
+- **KIÍRT EXTRA** - Három kördiagramot is elhelyeztünk.
 
-## A nap fejleményei:
-
-### Slack csoport
-A délelőtti konzultációt követően összehoztam egy csoportot a Slacken a hét emberrel.
-
-### Fork
-Habár új emberek is csatlakoztak a csoporthoz, én maradtam a korábbi csoportfeladatok során alkalmazott eljárásnál és forkoltam a Józsi által közzétett repót.
-
-### Új projekt
-Klónoztam a repót a gépemre, majd a konzultációban is bemutatott módon létrehoztam ebbe a mappába egy új Angular projektet.
-
-### Material-Dashboard bekötés
-A projekthez mellékelt Material-Dashboard mappából az assets mappa lényegi tartalmát átmásoltam a projekt assets mappájába, majd az angular.json-ben bekötöttem a Dashboard css és js fájlját az alkalmazásba.
-Annak érdekében, hogy látható legyen az eredmény, a Dashboard minta mappájában található egyik html tartamát átmásoltam az app.component.html-be. Természetesen csak a body elemeit, a css-eket, scripteket bekötéseit kitöröltem, hisz azt már megtettem az Angularban korábban.
-
-### Induló repository és branch-ek
-Az így kapott állapotot pusholtam a gitre és készítettem belőle egy dev, majd ebből egy-egy névre szóló branchet. A repóhoz pedig meghívtam a csapat többi tagját. Minderről slacken tájékoztattam is a társakat.
-
-### Trello
-Mindeközben Jenő és Gabi hozzáláttak a Trello regisztrációnk elkészítéséhez. Végül Jenő jutott elsőként a megoldáshoz, így létrehozta a csoportunkat, e-mailben pedig minden csapattagot meghívót. Így a mi dolgunk már roppant egyszerű volt. Egy név és egy jelszó megadásával már bent is voltunk a saját Trello felületünkön.
-
-### Első közös meeting
-Sikerült találnunk egy olyan időpontot, amely a többségnek alkalmas. 18:00-kor jöttünk össze a Teams felületén, a hét főből hatan, ami, ismerve a körülményeket, meglehetősen jó arány.
-
-### Feladatkiírás értelmezése
-Elsőként a feladatkiírást értelmeztük, hogy véletlenül se szülessenek eltérő értelémezések már a legelején. Miután mindent tisztáztunk, hozzáláttunk a tervezéshez.
-
-### Tervezés
-A közösen tölthető szűkös időnk végett úgy döntöttünk, hogy nem táblázzuk be a teljes projektet. Jenő már előkészítette a backlogot a meeting kezdetére, jelezve rajta a főbb entitásokat. A tervezés során pedig indulásként az osztályok, servicek és json állományok létrehozását tűztük ki elvégzendő feladatként. Ezeket pedig jelentkezéses módszerrel szét is osztottuk egymás között.
-Ezzel kapcsolatban történt egy kis előre dolgozás. Simon a saját branchében a nap folyamán elkészítette az összes szükséges osztályt és erről küldött is pull requestet, amelyet el is fogadtam és mergeltem a dev branchbe.
-Természetesen közösen átnéztük és a merget is közösen végeztük el.
-Az osztályok mindeegyike tartalmazta a kiírásban szereplő kulcsokat és a hozzájuk rendelt típusokat is megfelelőnek találtuk. Így mindenki elvégezhette a dev branch állapotáról a saját branchébe a merget.
-És hogy a tervezésben is előre dolgozzunk, kitűztünk pár további feladatot is, mint például a navbar és a routing komponensek.
-
-### Kiosztott Feladatok    
-- classes - Kövesdi Simon - test
-- category service, json- Vadas Gabriella
-- product service, json - Barta Mátyás
-- customer service, json - Balog Róbert
-- order service, json - Szakály Zsolt
-- bill zervice, json - Varga Jenő
-- navbar component - Kövesdi Simon
-- routing component - Balog Róbert
-    
-### következő tervezési fázis feladatai
-A csapat napközben, idejétől függően a slacken tud egymássla kommunikálni. A rá osztott feladatok elvégzésével pedig ki-ki szintén a szabadideje függvényében tud haladni.
-Várhatóan ma este felé átbeszélnénk, hogy ki mivel, milyen szinten haladt. Ha kérdés, elakadás van, átbeszéljük.
-Természetesen haladnánk tovább a tervezéssel.A táblánkra felvezetjük az elkészítendő komponenseket és hozzá is rendelnénk csapattagokhoz.
-Ezek az egyes entitások lista és szerkesztő komponensei, valamint az oldalon megjelenő egyéb komponensek, mint a naigáció és a fejléc, amelyeket már kiosztottunk.
-
-A közös konzultáció után sikerült beszélnek Csabával is, aki sajnos nem tudott részt venni a meetingen és sajnos a kedd reggeli stand upon sem tud jelen lenni. Ő gyermekorvos, este betegnél volt, reggel pedig rendelési ideje van. Ugyanakkor jelezte, hogy igyekszik felzárkózni és kivenni a részét a csapatmunkából.
-A hiányzók dolgát megkönnyítendő abban maradunk, hogy a Teams-es konzultációinkat, stand upjainkat rögzítjük és elérhetővé tesszük a csapattagok számára a projekt végéig.
+### További kiírt és megvalósított Extrea feladat
+- **KIÍRT EXTRA** - Azoknál a gomboknál, ahol kattintás után a szerver válaszára várunk, legyen animáció ami ezt jelzi.
